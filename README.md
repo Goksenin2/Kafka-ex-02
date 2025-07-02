@@ -1,17 +1,57 @@
-# Kafka Docker Compose Demo
+# Kafka Docker Demo
 
-A minimal example showing how to run Apache Kafka with ZooKeeper in Docker Compose. You’ll create a topic, produce a message, and consume it.
+Spin up ZooKeeper & Kafka with Docker Compose, then produce and consume a test message.
 
 ## Prerequisites
 
-- Docker ≥ 20.10  
-- Docker Compose ≥ 1.29  
-- ≥ 2 GB RAM allocated to Docker  
-- Shell (macOS Terminal, Linux bash, Windows PowerShell/WSL)
+- Docker  
+- Docker Compose  
 
-## Getting Started
-
-1. **Clone the repo and enter the directory**  
+## Quick Start
+1. Clone the repo and enter the directory  
    ```bash
    git clone https://github.com/<your-username>/kafka-docker-demo.git
    cd kafka-docker-demo
+
+2. Launch ZooKeeper & Kafka
+   docker compose up -d
+
+3. Verify both services are running
+   docker ps
+
+   You should see zookeeper on port 2181 and kafka on port 9092.
+
+
+## Usage
+1. Create a Topic
+   docker exec kafka \
+     kafka-topics.sh --create \
+       --topic test-topic \
+       --bootstrap-server localhost:9092 \
+       --partitions 1 \
+       --replication-factor 1
+
+   Confirm it exists:
+   docker exec kafka \
+   kafka-topics.sh --list \
+   --bootstrap-server localhost:9092
+
+2. Produce a Message
+   docker exec -it kafka \
+     kafka-console-producer.sh \
+       --topic test-topic \
+       --bootstrap-server localhost:9092
+   Type your message
+
+3. Consume the Message
+   docker exec kafka \
+     kafka-console-consumer.sh \
+       --topic test-topic \
+       --from-beginning \
+       --bootstrap-server localhost:9092 \
+       --max-messages 1
+   Expected output:
+    Hello from Kafka!
+    Processed a total of 1 messages
+   
+   
