@@ -8,15 +8,11 @@ Spin up ZooKeeper & Kafka with Docker Compose, then produce and consume a test m
 - Docker Compose  
 
 ## Quick Start
-1. Clone the repo and enter the directory  
-   ```bash
-   git clone https://github.com/<your-username>/kafka-docker-demo.git
-   cd kafka-docker-demo
 
-2. Launch ZooKeeper & Kafka
+1. Launch ZooKeeper & Kafka
    docker compose up -d
 
-3. Verify both services are running
+2. Verify both services are running
    docker ps
 
    You should see zookeeper on port 2181 and kafka on port 9092.
